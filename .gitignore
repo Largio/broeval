@@ -1,0 +1,6 @@
+*.pyc
+.vagrant/
+*.log
+*-SUMMARY-snort
+*.result.csv
+*-SUMMARY-bro
