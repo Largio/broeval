@@ -6,7 +6,6 @@ echo "par Times an icmp flood attack for \$iter * 10 milliseconds. seq pings seq
 exit
 fi
 
-#Target and source switched because target needs to (flood-)ping the source (analog to http->source downloads from target, gets data from target)
 SOURCE=$1
 TARGET=$2
 ITER=$3
