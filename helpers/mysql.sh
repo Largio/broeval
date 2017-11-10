@@ -6,7 +6,6 @@ echo "Times a mysql transfer of data using Select statement and outputting to lo
 exit
 fi
 
-#TODO Target and Source may be exchanged here since the Target is supposed to be the server and we want to insert into the server database in this case.ATM Source is downloading from Target, so Target = Server, via Select
 SOURCE=$1
 TARGET=$2
 ITER=$3
@@ -29,7 +28,6 @@ fi
 if [ $MODE == 'par' ]; 
 then
 ssh $SOURCEFINAL "/usr/bin/time -f \"%e\" bash -c \"seq $ITER | parallel -n0 sql\\\ mysql://$TARGET/ \\\'SELECT\\\ data\\\ FROM\\\ ids_rand.rand_data\\\ WHERE\\\ size\\\ =\\\ ${SIZE}\\\;\\\'\\\ \\\>\\\ /dev/null\""
-#ssh $SOURCEFINAL "/usr/bin/time -f \"%e\" bash -c \"seq $ITER | parallel -n0 sql mysql://root:brosnort-1386@$TARGET/ 'SELECT data FROM ids_rand.rand_data WHERE size = ${SIZE};' > /dev/null\""
 elif [ $MODE == 'seq' ]; 
 then
 ssh $SOURCEFINAL "/usr/bin/time -f \"%e\" bash -c \"for i in {1..$ITER}; do mysql --silent -h $TARGET -e 'SELECT data FROM ids_rand.rand_data WHERE size = $SIZE;' > /dev/null; done\""
