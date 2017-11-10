@@ -1,0 +1,3 @@
+In snort_configure.sh -> "OINKCODE" einfügen
+In Vagrantfile -> an 5 Stellen mysql passwort "my_password" ersetzen !
+Evtl. Alle *.sh Dateien executable machen !

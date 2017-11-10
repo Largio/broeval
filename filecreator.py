@@ -15,16 +15,21 @@ def main():
 protocols = ('http', 'ssl', 'ftp', 'mysql', 'icmp')
 # IDS MODE (Available atm: noids, min, max, prot1) noids=No IDS Loaded, min=Minimum config of IDS Rules, max= all IDS Rules, prot#=Protocol Specific Ruleset
 idsmo = ('noids', 'min', 'max', 'prot1')
+
+
 ####################################################################################
-#######################Variables in this box need to be set#########################
-#Number of sources (atm used: "8s-4t" and "1s-1t")
-num_sources = 1
+#######################    Variables in this box need to be set    #########################
+#Number of sources (atm used: "1s-1t" and "8s-1t" and "2s-1t")
+num_sources = 8
 #Number of targets
 num_targets = 1
 # IDS NAME. HAS TO BE EITHER 'snort' or 'bro'
-ids_name = 'bro'
+ids_name = 'snort'
+# Size of the file to be downloaded from target (in Bytes * 10^SIZE) [e.g. 10^5=100000/1000=100kb] (ATM: 4 and 5)
+size = 4
 ####################################################################################
-fn = './runall'+ids_name+'-src'+str(num_sources)+'-tgt'+str(num_targets)+'.sh'
+filesize = (10**size)/1000
+fn = './runall'+ids_name+'-'+str(filesize)+'KB-src'+str(num_sources)+'-tgt'+str(num_targets)+'.sh'
 f2 = open(fn,"w+")
 f2.write("#!/bin/bash\n")
 f2.write("\necho \"Please edit this file and uncomment the experiments you intended to run.\"\n\n")
@@ -35,8 +40,6 @@ for index, prot in enumerate(protocols):
 		    idsmode = protocol
 	#	#ids is either 'ids' or 'noids' and just determines if any ids is enabled or not
 	#	ids = 'ids'
-		# Size of the file to be downloaded from target (in Bytes * 10^SIZE) [e.g. 10^5=100000/1000=100kb]
-		size = 4
 		#mode is either 'par' or  'seq' (for parallel or sequential)
 		mode = 'par'
 		############################
@@ -48,14 +51,14 @@ for index, prot in enumerate(protocols):
 		OLDiterations = ['00100', '00200', '00300',  '00400',  '00500',  '00600',  '00700',  '00800',  '00900',  '01000',  '01500',  '02000',  '02500',  '03000',  '03500',  '04000',  '04500',  '05000',  '05500',  '06000',  '06500',  '07000',  '07500',  '08000',  '08500',  '09000',  '09500',  '10000']
 		iplist_vm = ['10.0.0.11', '10.0.0.12', '10.0.0.13', '10.0.0.14', '10.0.0.21', '10.0.0.22',  '10.0.0.23', '10.0.0.24', '10.0.0.31', '10.0.0.32', '10.0.0.33', '10.0.0.34']
 		iplist_phys = ['10.0.0.1', '10.0.0.2', '10.0.0.3']
-		filesize = (10**size)/1000
+	
 
 		#path to the file as seen from broeval.py position
 		path = 'runs/'+str(ids_name)+'/'+str(filesize)+'KB/src'+str(num_sources)+'-tgt'+str(num_targets)+'/'
 
 		#source ip adresses
 		if num_sources == 8:
-			sources = "'" + "', '".join(iplist_vm[:num_targets]) + "', '" + "', '".join(iplist_vm[num_sources:]) + "'"
+			sources = "'" + "', '".join(iplist_vm[:num_sources/2]) + "', '" + "', '".join(iplist_vm[num_sources:]) + "'"
 		elif num_sources == 1:
 			sources = "'" + "', '".join(iplist_phys[:num_sources]) + "'"
 		else:
@@ -64,7 +67,7 @@ for index, prot in enumerate(protocols):
 		if num_targets == 4:
 			targets = "'" + "', '".join(iplist_vm[num_targets:num_sources]) + "'"
 		elif num_targets == 1:
-			targets = "'" + "', '".join(iplist_phys[num_sources:(num_sources+num_targets)]) + "'"
+			targets = "'" + "', '".join(iplist_phys[num_targets:(num_targets+num_targets)]) + "'"
 		else:
 			targets = "'" + "', '".join(iplist_phys[num_sources:(num_sources+num_targets)]) + "'"
 	

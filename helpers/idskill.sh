@@ -28,10 +28,12 @@ OUTFILE=$3
 if grep -q -x $MACHINE ~/broeval/helpers/VMs.txt;
 then
 MACHINEFINAL="ubuntu@$MACHINE"
+USR="ubuntu"
 #Add IPs of physical machines into helpers/Physicals.txt
 elif grep -q -x $MACHINE ~/broeval/helpers/Physicals.txt;
 then
 MACHINEFINAL=$MACHINE
+USR="jan"
 else 
 echo "Entered \"IP\" not specified in helpers/VMs.txt or helpers/Physicals.txt" 
 MACHINEFINAL=$MACHINE
@@ -45,7 +47,7 @@ if ! [[ $OUTFILE == 'default' ]];
 then
 sleep 3
 echo "....................MACHINE: $MACHINE" >> ${OUTFILE}'-SUMMARY''-'${IDS};
-ssh $MACHINEFINAL "sudo chown -R jan ~/${IDS}log/*"
+ssh $MACHINEFINAL "sudo chown -R ${USR} ~/${IDS}log/*"
 ssh $MACHINEFINAL "find ~/${IDS}log/ -maxdepth 1 -name \"reporter.log\" -exec cat {} \;" >> ${OUTFILE}'-SUMMARY''-'${IDS};
 ssh $MACHINEFINAL "echo \"signatures.log Linecount:\"" >> ${OUTFILE}'-SUMMARY''-'${IDS};
 ssh $MACHINEFINAL "find ~/brolog/ -maxdepth 1 -name \"signatures.log\" | xargs wc -l" >> ${OUTFILE}'-SUMMARY''-'${IDS};
@@ -57,7 +59,7 @@ if ! [[ $OUTFILE == 'default' ]];
 then
 sleep 3
 echo "....................MACHINE: $MACHINE" >> ${OUTFILE}'-SUMMARY''-'${IDS};
-ssh $MACHINEFINAL "sudo chown -R jan ~/${IDS}log/*"
+ssh $MACHINEFINAL "sudo chown -R ${USR} ~/${IDS}log/*"
 ssh $MACHINEFINAL "find ~/${IDS}log/ -maxdepth 1 -name \"rulesummary-*\" -exec cat {} \;" >> ${OUTFILE}'-SUMMARY''-'${IDS};
 ssh $MACHINEFINAL "find ~/${IDS}log/ -maxdepth 1 -name \"preprocsummary-*\" -exec cat {} \;" >> ${OUTFILE}'-SUMMARY''-'${IDS};
 fi

@@ -152,8 +152,8 @@ Vagrant.configure("2") do |config|
 	service apache2 force-reload
 
 	#Install MySQL Server and populate DB
-	debconf-set-selections <<< 'mysql-server mysql-server/root_password password my_password'
-	debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password my_password'
+	debconf-set-selections <<< 'mysql-server mysql-server/root_password password brosnort-1386'
+	debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password brosnort-1386'
 	apt-get install -y mysql-server
 	#Make mysql accessible without password	
 	echo -e "[client]\nuser=root\npassword=brosnort-1386\n" > /home/ubuntu/.my.cnf
@@ -162,7 +162,7 @@ Vagrant.configure("2") do |config|
 	chmod 0600 ~/.my.cnf
 	sed -i "s/.*bind-address.*/bind-address=0.0.0.0/" /etc/mysql/mysql.conf.d/mysqld.cnf
 	service mysql restart
-	mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'my_password' WITH GRANT OPTION;"
+	mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'brosnort-1386' WITH GRANT OPTION;"
 	mysql -e "FLUSH PRIVILEGES;"
 	mysql -e "CREATE DATABASE ids_rand DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;"
 	mysql --database=ids_rand --execute="CREATE TABLE rand_data (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, data VARCHAR(100), size INT(20) UNSIGNED);"

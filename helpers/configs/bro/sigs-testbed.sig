@@ -4,8 +4,8 @@ signature sig-icmp {
 }
 signature sig-http{
 	ip-proto == tcp
-	dst-port == 80
 	event "HTTP Test detected. Testbed Heidelberg"
+	dst-port == 80
 }
 signature sig-ftp{
 	ip-proto == tcp

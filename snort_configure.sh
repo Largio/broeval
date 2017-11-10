@@ -35,7 +35,7 @@ sed -i -e 's!var BLACK_LIST_PATH ../rules!var BLACK_LIST_PATH /etc/snort/rules/i
 #It is recommended to goto www.snort.org and make a free account to retrieve a personal "oinkcode" to being able to download the registered rules package.
 
 cd /home/ubuntu
-wget -N https://www.snort.org/reg-rules/snortrules-snapshot-2990.tar.gz/OINKCODE -O snortrules-snapshot-2990.tar.gz
+wget -N https://www.snort.org/reg-rules/snortrules-snapshot-2990.tar.gz/2a268f390d0511440e85519013a8e0029eb1a9b9 -O snortrules-snapshot-2990.tar.gz
 sudo tar xvfz snortrules-snapshot-2990.tar.gz -C /etc/snort
 cd /etc/snort/etc
 sudo cp ./*.conf* ../
